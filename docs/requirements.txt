@@ -1,0 +1,16 @@
+Use cases
+- Sign up
+- Sign in
+- Enroll in a course
+- Mark lecture as concluded
+- Select lecture in course
+
+- Create course
+- Create module in course
+- Create lecture in module
+- Change order of a lecture in a module
+- Change order of a module in a course?
+- Update user
+- Update course
+- Update module
+- Update lecture
