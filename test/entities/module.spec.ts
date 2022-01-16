@@ -94,4 +94,14 @@ describe('Module', () => {
 
     expect(module.numberOfLectures).toEqual(0)
   })
+
+  it('should be able to handle trying to remove an unexisting lecture', () =>{
+    const module = new Module('Fundamentals')
+    const branching: Lecture = new Lecture('Branching', 'https://youtube.com/branching')
+    const commiting: Lecture = new Lecture('Commiting', 'https://youtube.com/commiting')
+    module.add(commiting)
+    module.remove(branching)
+
+    expect(module.numberOfLectures).toEqual(1)
+  })
 })
