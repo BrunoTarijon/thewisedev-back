@@ -22,6 +22,11 @@ export class Module {
     return this.lectures.find(lec => lec.description === lecture.description) !== undefined
   }
 
+  remove (lecture: Lecture): void{
+    const positionInArray = this.position(lecture) - 1
+    this.lectures.splice(positionInArray, 1)
+  }
+
   includes (lecture: Lecture): boolean {
     return this.lectures.find(lec => lec.equals(lecture)) !== undefined
   }
