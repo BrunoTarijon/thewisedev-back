@@ -23,7 +23,7 @@ function createLecture(){
 }
 
 describe('Course', () => {
-  describe('Adding courses', () =>{
+  describe('Adding modules', () =>{
     let course: Course
     let module1: Module
     let module2: Module
