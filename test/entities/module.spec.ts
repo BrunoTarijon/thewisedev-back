@@ -85,4 +85,13 @@ describe('Module', () => {
     expect(module.position(commiting)).toBe(2)
     expect(module.position(pushing)).toBe(3)
   })
+
+  it('should be able to remove a lecture', () =>{
+    const module = new Module('Fundamentals')
+    const branching: Lecture = new Lecture('Branching', 'https://youtube.com/branching')
+    module.add(branching)
+    module.remove(branching)
+
+    expect(module.numberOfLectures).toEqual(0)
+  })
 })
