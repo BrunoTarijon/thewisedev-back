@@ -11,6 +11,21 @@ describe('Course', () => {
     expect(course.includes(module)).toBeTruthy()
   })
 
+  it('should not be able to add modules with same name', () => {
+    const course = new Course('azure-devops',
+      'Continuous Delivery and DevOps with Azure DevOps: Source Control with Git')
+    const module1 = new Module('Fundamentals')
+    const lecture: Lecture = new Lecture('Branching', 'https://youtube.com/1234')
+
+    const module2 = new Module('Fundamentals')
+    module1.add(lecture)
+    course.add(module1)
+    course.add(module2)
+    expect(course.includes(module1)).toBeTruthy()
+    expect(course.includes(module2)).toBeFalsy()
+    expect(course.numberOfModules).toEqual(1)
+  })
+
   it('should be able to rearrange the order of lectures', () => {
     const course = new Course('azure-devops',
       'Continuous Delivery and DevOps with Azure DevOps: Source Control with Git')
