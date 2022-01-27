@@ -26,6 +26,5 @@ export class Lecture {
   remove (material: Material): void {
     const position = this.materials.indexOf(material)
     if(position != -1) this.materials.includes(material)
-    this.
   }
 }
