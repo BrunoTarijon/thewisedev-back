@@ -22,4 +22,10 @@ export class Lecture {
   includes (material: Material): boolean {
       return this.materials.includes(material)
   }
+
+  remove (material: Material): void {
+    const position = this.materials.indexOf(material)
+    if(position != -1) this.materials.includes(material)
+    this.
+  }
 }
