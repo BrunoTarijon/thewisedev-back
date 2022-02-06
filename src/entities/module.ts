@@ -1,50 +1,39 @@
+import { Container } from './container'
 import { Lecture } from './lecture'
-import { moveInArray } from './util'
+import { Part } from './part'
 
-export class Module {
-  private readonly lectures: Array<Lecture> = []
+export class Module implements Part {
+  private readonly lectures: Container<Lecture> = new Container<Lecture>()
   public readonly name: string
   constructor (name: string) {
     this.name = name
   }
 
   get numberOfLectures (): number {
-    return this.lectures.length
+    return this.lectures.numberOfParts
   }
 
   add (lecture: Lecture): void {
-    if (!this.includesLectureWithSameDescription(lecture)) {
-      this.lectures.push(lecture)
-    }
-  }
-
-  private includesLectureWithSameDescription (lecture: Lecture): boolean {
-    return this.lectures.find(lec => lec.description === lecture.description) !== undefined
-  }
-
-  remove (lecture: Lecture): void{
-    if (!this.includes(lecture)) return
-    const positionInArray = this.position(lecture) - 1
-    this.lectures.splice(positionInArray, 1)
+    this.lectures.add(lecture)
   }
 
   includes (lecture: Lecture): boolean {
-    return this.lectures.find(lec => lec.equals(lecture)) !== undefined
+    return this.lectures.includes(lecture)
   }
 
-  move (lecture: Lecture, to: number): void {
-    if (to > this.lectures.length || to <= 0) {
-      return
-    }
-    const from = this.position(lecture)
-    moveInArray(this.lectures, from - 1, to - 1)
+  move (lecture: Lecture, position: number): void {
+    this.lectures.move(lecture, position)
   }
 
   position (lecture: Lecture): number {
-    const lectureInModule = this.lectures.find(lec => lec.equals(lecture))
-    if (lectureInModule === undefined) {
-      return undefined
-    }
-    return this.lectures.indexOf(lectureInModule) + 1
+    return this.lectures.position(lecture)
+  }
+
+  remove (lecture: Lecture): void {
+    this.lectures.remove(lecture)
+  }
+
+  equals (module: Module): boolean {
+    return this.name === module.name
   }
 }

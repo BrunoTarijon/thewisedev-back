@@ -1,9 +1,9 @@
 import { Lecture } from '.'
+import { Container } from './container'
 import { Module } from './module'
-import { moveInArray } from './util'
 
 export class Course {
-  private modules: Array<Module> = []
+  private readonly modules: Container<Module> = new Container<Module>()
   public reference: string
   public description: string
 
@@ -13,43 +13,29 @@ export class Course {
   }
 
   get numberOfModules (): number {
-    return this.modules.length
+    return this.modules.numberOfParts
   }
-
 
   add (module: Module): void {
-    if (!this.includesModuleWithSameName(module)) this.modules.push(module)
-  }
-
-  private includesModuleWithSameName (module: Module): boolean {
-    return this.modules.find(mod => mod.name === module.name) !== undefined
+    this.modules.add(module)
   }
 
   includes (module: Module): boolean {
     return this.modules.includes(module)
   }
 
-  move (module: Module, to: number): void {
-    if (to > this.modules.length || to <= 0) {
-      return
-    }
-    const from = this.position(module)
-    moveInArray(this.modules, from - 1, to - 1)
+  move (module: Module, position: number): void {
+    this.modules.move(module, position)
   }
 
   position (module: Module): number {
-    const moduleInCourse = this.modules.find(mod => mod.name === module.name)
-    if (moduleInCourse === undefined) {
-      return undefined
-    }
-    return this.modules.indexOf(moduleInCourse) + 1
+    return this.modules.position(module)
   }
 
   moveLecture (lecture: Lecture, fromModule: Module, toModule: Module, position: number): void {
     fromModule.remove(lecture)
     toModule.add(lecture)
     const currentLecturePosition = toModule.position(lecture)
-    if (currentLecturePosition != position) toModule.move(lecture, position)
+    if (currentLecturePosition !== position) toModule.move(lecture, position)
   }
 }
-
