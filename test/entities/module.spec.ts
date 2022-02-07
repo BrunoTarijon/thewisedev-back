@@ -1,4 +1,5 @@
 import { Lecture, Module } from '../../src/entities'
+import { ExistingElementError } from '../../src/entities/errors/existing-element-error'
 
 describe('Module', () => {
   it('should be able to add lectures to modules', () => {
@@ -13,9 +14,9 @@ describe('Module', () => {
     const lecture: Lecture = new Lecture('Branching', 'https://youtube.com/1234')
     const otherLecture: Lecture = new Lecture('Branching', 'https://youtube.com/3456')
     module.add(lecture)
-    module.add(otherLecture)
+    const error = module.add(otherLecture).value
     expect(module.includes(lecture)).toBeTruthy()
-    expect(module.includes(otherLecture)).toBeFalsy()
+    expect(error).toBeInstanceOf(ExistingElementError)
   })
 
   it('should be able to rearrange the order of lectures', () => {
