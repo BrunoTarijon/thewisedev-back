@@ -1,8 +1,8 @@
 import { Container } from './container'
 import { Material } from './material'
-import { Part } from './part'
+import { Element } from './element'
 
-export class Lecture implements Part {
+export class Lecture implements Element {
   private readonly materials: Container<Material> = new Container<Material>()
   readonly description: string
   readonly videoUrl: string

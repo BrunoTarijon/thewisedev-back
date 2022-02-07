@@ -1,8 +1,8 @@
 import { Container } from './container'
 import { Lecture } from './lecture'
-import { Part } from './part'
+import { Element } from './element'
 
-export class Module implements Part {
+export class Module implements Element {
   private readonly lectures: Container<Lecture> = new Container<Lecture>()
   public readonly name: string
   constructor (name: string) {
@@ -10,7 +10,7 @@ export class Module implements Part {
   }
 
   get numberOfLectures (): number {
-    return this.lectures.numberOfParts
+    return this.lectures.numberOfElements
   }
 
   add (lecture: Lecture): void {

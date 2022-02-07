@@ -1,47 +1,47 @@
 import { Either, left, right } from '../shared/either'
-import { ExistingPartError } from './errors/existing-part-error'
-import { Part } from './part'
+import { ExistingElementError } from './errors/existing-element-error'
+import { Element } from './element'
 
-export class Container<T extends Part> {
-  private readonly parts: Array<T> = []
+export class Container<T extends Element> {
+  private readonly elements: Array<T> = []
 
-  get numberOfParts (): number {
-    return this.parts.length
+  get numberOfElements (): number {
+    return this.elements.length
   }
 
-  add (element: T): Either<ExistingPartError, void> {
+  add (element: T): Either<ExistingElementError, void> {
     if (!this.includes(element)) {
       return right(this.push(element))
     }
-    return left(new ExistingPartError())
+    return left(new ExistingElementError())
   }
 
   private push (element: T): void {
-    this.parts.push(element)
+    this.elements.push(element)
   }
 
-  includes (part: T): boolean {
-    return this.parts.find(p => p.equals(part) === true) !== undefined
+  includes (element: T): boolean {
+    return this.elements.find(p => p.equals(element) === true) !== undefined
   }
 
-  move (part: T, to: number): void {
-    if (to > this.parts.length || to < 1) return
-    const from = this.position(part)
-    moveInArray(this.parts, from - 1, to - 1)
+  move (element: T, to: number): void {
+    if (to > this.elements.length || to < 1) return
+    const from = this.position(element)
+    moveInArray(this.elements, from - 1, to - 1)
   }
 
-  position (part: T): number {
-    const partInContainer = this.parts.find(p => p.equals(part))
+  position (element: T): number {
+    const partInContainer = this.elements.find(p => p.equals(element))
     if (partInContainer === undefined) {
       return undefined
     }
-    return this.parts.indexOf(partInContainer) + 1
+    return this.elements.indexOf(partInContainer) + 1
   }
 
-  remove (part: T): void {
-    if (!this.includes(part)) return
-    const positionInArray = this.position(part) - 1
-    this.parts.splice(positionInArray, 1)
+  remove (element: T): void {
+    if (!this.includes(element)) return
+    const positionInArray = this.position(element) - 1
+    this.elements.splice(positionInArray, 1)
   }
 }
 
