@@ -1,6 +1,8 @@
 import { Container } from './container'
 import { Lecture } from './lecture'
 import { Element } from './element'
+import { ExistingElementError } from './errors/existing-element-error'
+import { Either } from '../shared/either'
 
 export class Module implements Element {
   private readonly lectures: Container<Lecture> = new Container<Lecture>()
@@ -13,8 +15,8 @@ export class Module implements Element {
     return this.lectures.numberOfElements
   }
 
-  add (lecture: Lecture): void {
-    this.lectures.add(lecture)
+  add (lecture: Lecture): Either<ExistingElementError, void> {
+    return this.lectures.add(lecture)
   }
 
   includes (lecture: Lecture): boolean {
