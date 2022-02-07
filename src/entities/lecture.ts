@@ -1,6 +1,8 @@
 import { Container } from './container'
 import { Material } from './material'
 import { Element } from './element'
+import { ExistingElementError } from './errors/existing-element-error'
+import { Either } from '../shared/either'
 
 export class Lecture implements Element {
   private readonly materials: Container<Material> = new Container<Material>()
@@ -12,8 +14,8 @@ export class Lecture implements Element {
     this.videoUrl = videoUrl
   }
 
-  add (material: Material): void {
-    this.materials.add(material)
+  add (material: Material): Either<ExistingElementError, void> {
+    return this.materials.add(material)
   }
 
   includes (material: Material): boolean {
