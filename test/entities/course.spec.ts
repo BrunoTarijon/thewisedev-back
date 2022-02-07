@@ -1,5 +1,5 @@
 import { Course, Module, Lecture } from '../../src/entities'
-import { ExistingModuleError } from '../../src/entities/errors/existing-module-error'
+import { ExistingElementError } from '../../src/entities/errors/existing-element-error'
 
 function createCourse(){
   const course = new Course(
@@ -46,11 +46,11 @@ describe('Course', () => {
     it('should not be able to add modules with same name', () => {
       module1.add(lecture)
       const ok = course.add(module1).value as void
-      const error = course.add(module2).value as ExistingModuleError
+      const error = course.add(module2).value as ExistingElementError
       expect(ok).toEqual(undefined)
       expect(course.includes(module1)).toBeTruthy()
       expect(course.numberOfModules).toEqual(1)
-      expect(error.message).toEqual('Module already exists in course.')
+      expect(error.message).toEqual('Element already exists.')
     })
   })
   
