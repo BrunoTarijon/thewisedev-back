@@ -1,36 +1,36 @@
 import { Course, Module, Lecture } from '../../src/entities'
 import { ExistingElementError } from '../../src/entities/errors/existing-element-error'
 
-function createCourse(){
+function createCourse () {
   const course = new Course(
     'azure-devops',
-    'Continuous Delivery and DevOps with Azure DevOps: Source Control with Git',
-    )
+    'Continuous Delivery and DevOps with Azure DevOps: Source Control with Git'
+  )
   return course
 }
 
-function createModule(){
+function createModule () {
   const module = new Module(
-    'Fundamentals',
+    'Fundamentals'
   )
   return module
 }
 
-function createLecture(){
+function createLecture () {
   const lecture: Lecture = new Lecture(
-    'Branching', 'https://youtube.com/1234',
+    'Branching', 'https://youtube.com/1234'
   )
   return lecture
 }
 
-describe('Course', () => {
-  describe('Adding modules', () =>{
+describe('course', () => {
+  describe('adding modules', () => {
     let course: Course
     let module1: Module
     let module2: Module
     let lecture: Lecture
 
-    beforeEach(() =>{
+    beforeEach(() => {
       course = createCourse()
       module1 = createModule()
       module2 = createModule()
@@ -42,7 +42,7 @@ describe('Course', () => {
       course.add(module1)
       expect(course.includes(module1)).toBeTruthy()
     })
-  
+
     it('should not be able to add modules with same name', () => {
       module1.add(lecture)
       const ok = course.add(module1).value as void
@@ -53,8 +53,8 @@ describe('Course', () => {
       expect(error.message).toEqual('Element already exists.')
     })
   })
-  
-  describe('Rearrange modules', () => {
+
+  describe('rearrange modules', () => {
     let course: Course
     let fundamentalsModule: Module
     let branchingLecture: Lecture
@@ -65,7 +65,7 @@ describe('Course', () => {
 
     beforeEach(() => {
       course = createCourse()
-      
+
       fundamentalsModule = new Module('Fundamentals')
       branchingLecture = new Lecture('Branching', 'https://youtube.com/1234')
       fundamentalsModule.add(branchingLecture)
@@ -89,14 +89,14 @@ describe('Course', () => {
       expect(course.position(fundamentalsModule)).toBe(2)
       expect(course.position(gitModule)).toBe(3)
     })
-  
+
     it('should handle exceeding position while rearranging', () => {
       course.move(fundamentalsModule, 10)
       expect(course.position(fundamentalsModule)).toBe(1)
       expect(course.position(courseOverviewModule)).toBe(2)
       expect(course.position(gitModule)).toBe(3)
     })
-    
+
     it('should handle negative position while rearranging', () => {
       course.move(fundamentalsModule, -1)
       expect(course.position(fundamentalsModule)).toBe(1)
@@ -104,8 +104,8 @@ describe('Course', () => {
       expect(course.position(gitModule)).toBe(3)
     })
   })
-  
-  describe('Move lecture between modules',() => {
+
+  describe('move lecture between modules', () => {
     let course: Course
     let fundamentalsModule: Module
     let branchingLecture: Lecture
@@ -116,7 +116,7 @@ describe('Course', () => {
       course = createCourse()
 
       fundamentalsModule = new Module('Fundamentals')
-      branchingLecture= new Lecture('Branching', 'https://youtube.com/1234')
+      branchingLecture = new Lecture('Branching', 'https://youtube.com/1234')
       fundamentalsModule.add(branchingLecture)
 
       gitModule = new Module('Source Control with git on Azure DevOps')
@@ -131,6 +131,25 @@ describe('Course', () => {
       expect(fundamentalsModule.numberOfLectures).toEqual(0)
       expect(gitModule.numberOfLectures).toEqual(2)
       expect(gitModule.position(branchingLecture)).toEqual(1)
+    })
+  })
+
+  describe('remove module', () => {
+    let course: Course
+    let module: Module
+    let lecture: Lecture
+
+    beforeEach(() => {
+      course = createCourse()
+      module = createModule()
+      lecture = createLecture()
+      module.add(lecture)
+      course.add(module)
+    })
+
+    it('should be able to remove module', () => {
+      course.remove(module)
+      expect(course.numberOfModules).toEqual(0)
     })
   })
 })
