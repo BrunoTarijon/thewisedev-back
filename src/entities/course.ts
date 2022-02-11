@@ -22,6 +22,10 @@ export class Course {
     return this.modules.add(module)
   }
 
+  remove (module: Module): void {
+    this.modules.remove(module)
+  }
+
   includes (module: Module): boolean {
     return this.modules.includes(module)
   }
