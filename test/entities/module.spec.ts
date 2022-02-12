@@ -1,5 +1,6 @@
 import { Lecture, Module } from '../../src/entities'
 import { ExistingElementError } from '../../src/entities/errors/existing-element-error'
+import { UnexistingElementError } from '../../src/entities/errors/unexisting-element-error'
 
 describe('Module', () => {
   it('should be able to add lectures to modules', () => {
@@ -77,7 +78,7 @@ describe('Module', () => {
     expect(module.position(pushing)).toBe(3)
   })
 
-  it('should be able to remove a lecture', () =>{
+  it('should be able to remove a lecture', () => {
     const module = new Module('Fundamentals')
     const branching: Lecture = new Lecture('Branching', 'https://youtube.com/branching')
     module.add(branching)
@@ -86,13 +87,13 @@ describe('Module', () => {
     expect(module.numberOfLectures).toEqual(0)
   })
 
-  it('should be able to handle trying to remove an unexisting lecture', () =>{
+  it('should be able to handle trying to remove an unexisting lecture', () => {
     const module = new Module('Fundamentals')
     const branching: Lecture = new Lecture('Branching', 'https://youtube.com/branching')
     const commiting: Lecture = new Lecture('Commiting', 'https://youtube.com/commiting')
     module.add(commiting)
-    module.remove(branching)
-
+    const error = module.remove(branching).value as Error
+    expect(error).toBeInstanceOf(UnexistingElementError)
     expect(module.numberOfLectures).toEqual(1)
   })
 })
