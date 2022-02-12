@@ -24,8 +24,8 @@ export class Module implements Element {
     return this.lectures.includes(lecture)
   }
 
-  move (lecture: Lecture, position: number): void {
-    this.lectures.move(lecture, position)
+  move (lecture: Lecture, position: number): Either<UnexistingElementError, void> {
+    return this.lectures.move(lecture, position)
   }
 
   position (lecture: Lecture): Either<UnexistingElementError, number> {
