@@ -2,6 +2,7 @@ import { Lecture } from '.'
 import { Either } from '../shared/either'
 import { Container } from './container'
 import { ExistingElementError } from './errors/existing-element-error'
+import { UnexistingElementError } from './errors/unexisting-element-error'
 import { Module } from './module'
 
 export class Course {
@@ -22,8 +23,8 @@ export class Course {
     return this.modules.add(module)
   }
 
-  remove (module: Module): void {
-    this.modules.remove(module)
+  remove (module: Module): Either<UnexistingElementError, void> {
+    return this.modules.remove(module)
   }
 
   includes (module: Module): boolean {
