@@ -1,5 +1,6 @@
 import { Course, Module, Lecture } from '../../src/entities'
 import { ExistingElementError } from '../../src/entities/errors/existing-element-error'
+import { UnexistingElementError } from '../../src/entities/errors/unexisting-element-error'
 
 function createCourse () {
   const course = new Course(
@@ -148,8 +149,15 @@ describe('course', () => {
     })
 
     it('should be able to remove module', () => {
-      course.remove(module)
+      const ok = course.remove(module).value as void
       expect(course.numberOfModules).toEqual(0)
+      expect(ok).toBeUndefined()
+    })
+
+    it('should not be able to remove unexisting module', () => {
+      course.remove(module)
+      const error = course.remove(module).value as Error
+      expect(error).toBeInstanceOf(UnexistingElementError)
     })
   })
 })
