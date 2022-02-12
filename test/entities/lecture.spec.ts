@@ -47,4 +47,12 @@ describe('Lecture', () => {
     lecture.add(branchingLink)
     expect(lecture.includes(branchingLink)).toBeTruthy()
   })
+
+  it('should not be able to determine position of unexisting material', () => {
+    const lecture: Lecture = new Lecture('Branching', 'https://youtube.com/1234')
+    const branchingLink: Material = new Link('Branching', 'htttps://storage/branching.html')
+
+    const error = lecture.position(branchingLink).value as Error
+    expect(error).toBeInstanceOf(UnexistingElementError)
+  })
 })
