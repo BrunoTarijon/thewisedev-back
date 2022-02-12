@@ -3,6 +3,7 @@ import { Lecture } from './lecture'
 import { Element } from './element'
 import { ExistingElementError } from './errors/existing-element-error'
 import { Either } from '../shared/either'
+import { UnexistingElementError } from './errors/unexisting-element-error'
 
 export class Module implements Element {
   private readonly lectures: Container<Lecture> = new Container<Lecture>()
@@ -31,8 +32,8 @@ export class Module implements Element {
     return this.lectures.position(lecture)
   }
 
-  remove (lecture: Lecture): void {
-    this.lectures.remove(lecture)
+  remove (lecture: Lecture): Either<UnexistingElementError, void> {
+    return this.lectures.remove(lecture)
   }
 
   equals (module: Module): boolean {
