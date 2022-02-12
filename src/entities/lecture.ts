@@ -27,6 +27,10 @@ export class Lecture implements Element {
     return this.materials.remove(material)
   }
 
+  position (material: Material): Either<UnexistingElementError, number> {
+    return this.materials.position(material)
+  }
+
   equals (other: Lecture): boolean {
     return this.description === other.description
   }
