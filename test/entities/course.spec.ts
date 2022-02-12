@@ -86,23 +86,23 @@ describe('course', () => {
 
     it('should be able to rearrange the order of modules', () => {
       course.move(courseOverviewModule, 1)
-      expect(course.position(courseOverviewModule)).toBe(1)
-      expect(course.position(fundamentalsModule)).toBe(2)
-      expect(course.position(gitModule)).toBe(3)
+      expect(course.position(courseOverviewModule).value).toBe(1)
+      expect(course.position(fundamentalsModule).value).toBe(2)
+      expect(course.position(gitModule).value).toBe(3)
     })
 
     it('should handle exceeding position while rearranging', () => {
       course.move(fundamentalsModule, 10)
-      expect(course.position(fundamentalsModule)).toBe(1)
-      expect(course.position(courseOverviewModule)).toBe(2)
-      expect(course.position(gitModule)).toBe(3)
+      expect(course.position(fundamentalsModule).value).toBe(1)
+      expect(course.position(courseOverviewModule).value).toBe(2)
+      expect(course.position(gitModule).value).toBe(3)
     })
 
     it('should handle negative position while rearranging', () => {
       course.move(fundamentalsModule, -1)
-      expect(course.position(fundamentalsModule)).toBe(1)
-      expect(course.position(courseOverviewModule)).toBe(2)
-      expect(course.position(gitModule)).toBe(3)
+      expect(course.position(fundamentalsModule).value).toBe(1)
+      expect(course.position(courseOverviewModule).value).toBe(2)
+      expect(course.position(gitModule).value).toBe(3)
     })
   })
 
@@ -131,7 +131,7 @@ describe('course', () => {
       course.moveLecture(branchingLecture, fundamentalsModule, gitModule, 1)
       expect(fundamentalsModule.numberOfLectures).toEqual(0)
       expect(gitModule.numberOfLectures).toEqual(2)
-      expect(gitModule.position(branchingLecture)).toEqual(1)
+      expect(gitModule.position(branchingLecture).value).toEqual(1)
     })
   })
 
@@ -157,6 +157,24 @@ describe('course', () => {
     it('should not be able to remove unexisting module', () => {
       course.remove(module)
       const error = course.remove(module).value as Error
+      expect(error).toBeInstanceOf(UnexistingElementError)
+    })
+  })
+
+  describe('determine position of a module', () => {
+    let course: Course
+    let module: Module
+    let lecture: Lecture
+
+    beforeEach(() => {
+      course = createCourse()
+      module = createModule()
+      lecture = createLecture()
+      module.add(lecture)
+    })
+
+    it('should not be able to determine position of unexisting module', () => {
+      const error = course.position(module).value as Error
       expect(error).toBeInstanceOf(UnexistingElementError)
     })
   })
