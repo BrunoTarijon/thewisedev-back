@@ -31,8 +31,8 @@ export class Course {
     return this.modules.includes(module)
   }
 
-  move (module: Module, position: number): void {
-    this.modules.move(module, position)
+  move (module: Module, position: number): Either<UnexistingElementError, void> {
+    return this.modules.move(module, position)
   }
 
   position (module: Module): Either<UnexistingElementError, number> {
