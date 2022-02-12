@@ -85,10 +85,11 @@ describe('course', () => {
     })
 
     it('should be able to rearrange the order of modules', () => {
-      course.move(courseOverviewModule, 1)
+      const ok = course.move(courseOverviewModule, 1).value as void
       expect(course.position(courseOverviewModule).value).toBe(1)
       expect(course.position(fundamentalsModule).value).toBe(2)
       expect(course.position(gitModule).value).toBe(3)
+      expect(ok).toBeUndefined()
     })
 
     it('should handle exceeding position while rearranging', () => {
@@ -103,6 +104,12 @@ describe('course', () => {
       expect(course.position(fundamentalsModule).value).toBe(1)
       expect(course.position(courseOverviewModule).value).toBe(2)
       expect(course.position(gitModule).value).toBe(3)
+    })
+
+    it('should not be able to rearranging order of unexisting module', () => {
+      course.remove(fundamentalsModule)
+      const error = course.move(fundamentalsModule, 1).value as Error
+      expect(error).toBeInstanceOf(UnexistingElementError)
     })
   })
 
