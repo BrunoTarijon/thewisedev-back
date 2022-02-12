@@ -26,7 +26,7 @@ export class Container<T extends Element> {
     return this.elements.find(p => p.equals(element) === true) !== undefined
   }
 
-  move (element: T, to: number): Either<UnexistingElementError, void> {
+  move (element: T, to: number): Either<UnexistingElementError | InvalidPositionError, void> {
     if (to > this.elements.length || to < 1) return left(new InvalidPositionError())
     if (!this.includes(element)) return left(new UnexistingElementError())
     const from = this.position(element).value as number

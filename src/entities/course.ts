@@ -2,6 +2,7 @@ import { Lecture } from '.'
 import { Either } from '../shared/either'
 import { Container } from './container'
 import { ExistingElementError } from './errors/existing-element-error'
+import { InvalidPositionError } from './errors/invalid-position-error'
 import { UnexistingElementError } from './errors/unexisting-element-error'
 import { Module } from './module'
 
@@ -31,7 +32,7 @@ export class Course {
     return this.modules.includes(module)
   }
 
-  move (module: Module, position: number): Either<UnexistingElementError, void> {
+  move (module: Module, position: number): Either<UnexistingElementError | InvalidPositionError, void> {
     return this.modules.move(module, position)
   }
 

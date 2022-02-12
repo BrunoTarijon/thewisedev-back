@@ -4,6 +4,7 @@ import { Element } from './element'
 import { ExistingElementError } from './errors/existing-element-error'
 import { Either } from '../shared/either'
 import { UnexistingElementError } from './errors/unexisting-element-error'
+import { InvalidPositionError } from './errors/invalid-position-error'
 
 export class Module implements Element {
   private readonly lectures: Container<Lecture> = new Container<Lecture>()
@@ -24,7 +25,7 @@ export class Module implements Element {
     return this.lectures.includes(lecture)
   }
 
-  move (lecture: Lecture, position: number): Either<UnexistingElementError, void> {
+  move (lecture: Lecture, position: number): Either<UnexistingElementError | InvalidPositionError, void> {
     return this.lectures.move(lecture, position)
   }
 
