@@ -55,4 +55,16 @@ describe('Lecture', () => {
     const error = lecture.position(branchingLink).value as Error
     expect(error).toBeInstanceOf(UnexistingElementError)
   })
+
+  it('should be able to move further material', () => {
+    const lecture: Lecture = new Lecture('Branching', 'https://youtube.com/1234')
+    const branchingPdf: Material = new Pdf('BranchingPdf', 'htttps://storage/branching.pdf')
+    const branchingLink: Material = new Link('BranchingLink', 'htttps://storage/branching.html')
+
+    lecture.add(branchingPdf)
+    lecture.add(branchingLink)
+    lecture.move(branchingPdf, 2)
+    expect(lecture.position(branchingLink).value).toEqual(1)
+    expect(lecture.position(branchingPdf).value).toEqual(2)
+  })
 })
