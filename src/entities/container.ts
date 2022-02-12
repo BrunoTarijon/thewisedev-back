@@ -27,21 +27,21 @@ export class Container<T extends Element> {
 
   move (element: T, to: number): void {
     if (to > this.elements.length || to < 1) return
-    const from = this.position(element)
+    const from = this.position(element).value as number
     moveInArray(this.elements, from - 1, to - 1)
   }
 
-  position (element: T): number {
+  position (element: T): Either <UnexistingElementError, number> {
     const partInContainer = this.elements.find(p => p.equals(element))
     if (partInContainer === undefined) {
-      return undefined
+      return left(new UnexistingElementError())
     }
-    return this.elements.indexOf(partInContainer) + 1
+    return right(this.elements.indexOf(partInContainer) + 1)
   }
 
   remove (element: T): Either<UnexistingElementError, void> {
     if (!this.includes(element)) return left(new UnexistingElementError())
-    const positionInArray = this.position(element) - 1
+    const positionInArray = this.position(element).value as number - 1
     return right(this.splice(positionInArray, 1))
   }
 

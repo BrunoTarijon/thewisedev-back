@@ -35,14 +35,14 @@ export class Course {
     this.modules.move(module, position)
   }
 
-  position (module: Module): number {
+  position (module: Module): Either<UnexistingElementError, number> {
     return this.modules.position(module)
   }
 
   moveLecture (lecture: Lecture, fromModule: Module, toModule: Module, position: number): void {
     fromModule.remove(lecture)
     toModule.add(lecture)
-    const currentLecturePosition = toModule.position(lecture)
+    const currentLecturePosition = toModule.position(lecture).value
     if (currentLecturePosition !== position) toModule.move(lecture, position)
   }
 }

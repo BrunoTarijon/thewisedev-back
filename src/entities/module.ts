@@ -28,7 +28,7 @@ export class Module implements Element {
     this.lectures.move(lecture, position)
   }
 
-  position (lecture: Lecture): number {
+  position (lecture: Lecture): Either<UnexistingElementError, number> {
     return this.lectures.position(lecture)
   }
 
