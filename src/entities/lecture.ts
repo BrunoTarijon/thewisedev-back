@@ -4,6 +4,7 @@ import { Element } from './element'
 import { ExistingElementError } from './errors/existing-element-error'
 import { Either } from '../shared/either'
 import { UnexistingElementError } from './errors/unexisting-element-error'
+import { InvalidPositionError } from './errors/invalid-position-error'
 
 export class Lecture implements Element {
   private readonly materials: Container<Material> = new Container<Material>()
@@ -25,6 +26,10 @@ export class Lecture implements Element {
 
   remove (material: Material): Either<UnexistingElementError, void> {
     return this.materials.remove(material)
+  }
+
+  move (material: Material, to: number): Either<UnexistingElementError | InvalidPositionError, void> {
+    return this.materials.move(material, to)
   }
 
   position (material: Material): Either<UnexistingElementError, number> {
